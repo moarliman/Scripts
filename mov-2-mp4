@@ -1,0 +1,19 @@
+dir=`dirname "$@"`
+file=${@##*/}
+filename=${file%.mov}
+extension=${file##*.}
+newfile="${filename}.mp4"
+
+for f in "$@"
+do
+if [[ "$f" = *.mov ]]; then
+	# touch ~/Desktop/log.txt
+	# echo $dir >  ~/Desktop/log.txt
+	osascript -e 'display notification "Converting..." with title "mov to mp4"'
+	cd "$dir"
+    /usr/local/Cellar/ffmpeg/*/bin/ffmpeg -i "$file" -vcodec h264 -acodec aac "$newfile"
+	osascript -e 'display notification "Done!" with title "Converting mov to mp4"'
+	rm "$file"
+fi
+
+done
